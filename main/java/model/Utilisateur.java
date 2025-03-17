@@ -33,12 +33,12 @@ public class Utilisateur
 
 	public String getMotsDePasse()
 	{
-		return motsDePasse;
+		return motDePasse;
 	}
 
 	public void setMotsDePasse(String motsDePasse)
 	{
-		this.motsDePasse = motsDePasse;
+		this.motDePasse = motsDePasse;
 	}
 
 	public Integer getElo()
