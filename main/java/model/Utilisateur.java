@@ -5,7 +5,7 @@ public class Utilisateur
 	private Long id;
 	private String nomUtilisateur;
 	private String adresseMail;
-	private String motsDePasse;
+	private String motDePasse;
 	private Integer elo;
 	private Integer questionSecrete;
 	private String reponseSecrete;
