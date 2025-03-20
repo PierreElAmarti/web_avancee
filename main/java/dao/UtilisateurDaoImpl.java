@@ -12,10 +12,10 @@ import model.Utilisateur;
 
 public class UtilisateurDaoImpl implements UtilisateurDao {
 
-    private static final String SQL_SELECT        = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Client ORDER BY elo LIMIT 10";
-    private static final String SQL_SELECT_PAR_ID = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Client WHERE id = ?";
-    private static final String SQL_INSERT        = "INSERT INTO Client (nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    private static final String SQL_DELETE_PAR_ID = "DELETE FROM Client WHERE id = ?";
+    private static final String SQL_SELECT        = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Utilisateur ORDER BY elo LIMIT 10";
+    private static final String SQL_SELECT_PAR_ID = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Utilisateur WHERE id = ?";
+    private static final String SQL_INSERT        = "INSERT INTO Utilisateur (nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private static final String SQL_DELETE_PAR_ID = "DELETE FROM Utilisateur WHERE id = ?";
 
     private DAOFactory          daoFactory;
 
