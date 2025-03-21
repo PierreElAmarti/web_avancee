@@ -14,10 +14,16 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 
     private static final String SQL_SELECT        = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Utilisateur ORDER BY elo LIMIT 10";
     private static final String SQL_SELECT_PAR_ID = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Utilisateur WHERE id = ?";
+    private static final String SQL_SELECT_PAR_NOMUTILISATEUR = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Utilisateur WHERE nomUtilisateur = ?";
+    private static final String SQL_SELECT_PAR_ADRESSEMAIL = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Utilisateur WHERE adresseMail = ?";
+    private static final String SQL_SELECT_PAR_ADRESSEMAILOUNOMUTILISATEUR = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Utilisateur WHERE adresseMail = ? OR nomUtilisateur = ?";
     private static final String SQL_INSERT        = "INSERT INTO Utilisateur (nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private static final String SQL_UPDATE        = "UPDATE Utilisateur SET nomUtilisateur=?, adresseMail=?, motDePasse=?, elo=?, questionSecrete=?, reponseSecrete=?, permission=? WHERE id=?";
     private static final String SQL_DELETE_PAR_ID = "DELETE FROM Utilisateur WHERE id = ?";
 
     private DAOFactory          daoFactory;
+    
+    private static DAOMapper 	daoMapperUtilisateur = new DAOMapper().setClass(Utilisateur.class).setAttribute("id", "id").setAttribute("nomUtilisateur", "nomUtilisateur").setAttribute("adresseMail", "adresseMail").setAttribute("motDePasse", "motDePasse").setAttribute("elo", "elo").setAttribute("questionSecrete", "questionSecrete").setAttribute("reponseSecrete", "reponseSecrete").setAttribute("permission", "permission");
 
     UtilisateurDaoImpl( DAOFactory daoFactory ) {
         this.daoFactory = daoFactory;
@@ -27,6 +33,116 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
     @Override
     public Utilisateur trouver( long id ) throws DAOException {
         return trouver( SQL_SELECT_PAR_ID, id );
+    }
+
+    @Override
+    public Utilisateur getByUsernameOrMail( String eMailouNomUtilisateur ) throws DAOException {
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet valeursAutoGenerees = null;
+
+        Utilisateur utilisateur = null;
+        try {
+            /* Récupération d'une connexion depuis la Factory */
+            connexion = daoFactory.getConnection();
+            /*
+             * Préparation de la requête avec les objets passés en arguments
+             * (ici, uniquement un id) et exécution.
+             */
+            preparedStatement = DAOUtils.initialisationRequetePreparee( connexion, SQL_SELECT_PAR_ADRESSEMAILOUNOMUTILISATEUR, false, eMailouNomUtilisateur,eMailouNomUtilisateur );
+            ResultSet resultSet = preparedStatement.executeQuery();
+            /* Parcours de la ligne de données retournée dans le ResultSet */
+            if ( resultSet.next() ) {
+            	utilisateur = (Utilisateur) daoMapperUtilisateur.map( resultSet );
+            }
+        } catch ( SQLException e ) {
+            throw new DAOException( e );
+        } finally {
+        	DAOUtils.fermeturesSilencieuses( valeursAutoGenerees, preparedStatement, connexion );
+        }
+        return utilisateur;
+    }
+
+    @Override
+    public boolean emailDejaPris( String eMail ) throws DAOException {
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet valeursAutoGenerees = null;
+
+        try {
+            /* Récupération d'une connexion depuis la Factory */
+            connexion = daoFactory.getConnection();
+            /*
+             * Préparation de la requête avec les objets passés en arguments
+             * (ici, uniquement un id) et exécution.
+             */
+            preparedStatement = DAOUtils.initialisationRequetePreparee( connexion, SQL_SELECT_PAR_ADRESSEMAIL, false, eMail );
+            ResultSet resultSet = preparedStatement.executeQuery();
+            /* Parcours de la ligne de données retournée dans le ResultSet */
+            if ( resultSet.next() ) {
+            	DAOUtils.fermeturesSilencieuses( valeursAutoGenerees, preparedStatement, connexion );
+            	return true;
+            }
+        	DAOUtils.fermeturesSilencieuses( valeursAutoGenerees, preparedStatement, connexion );
+            return false;
+        } catch ( SQLException e ) {
+            throw new DAOException( e );
+        } finally {
+        	DAOUtils.fermeturesSilencieuses( valeursAutoGenerees, preparedStatement, connexion );
+        }
+    }
+
+    @Override
+    public boolean nomUtilisateurDejaPris( String nomUtilisateur ) throws DAOException {
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet valeursAutoGenerees = null;
+
+        try {
+            /* Récupération d'une connexion depuis la Factory */
+            connexion = daoFactory.getConnection();
+            /*
+             * Préparation de la requête avec les objets passés en arguments
+             * (ici, uniquement un id) et exécution.
+             */
+            preparedStatement = DAOUtils.initialisationRequetePreparee( connexion, SQL_SELECT_PAR_NOMUTILISATEUR, false, nomUtilisateur );
+            ResultSet resultSet = preparedStatement.executeQuery();
+            /* Parcours de la ligne de données retournée dans le ResultSet */
+            if ( resultSet.next() ) {
+            	DAOUtils.fermeturesSilencieuses( valeursAutoGenerees, preparedStatement, connexion );
+            	return true;
+            }
+        	DAOUtils.fermeturesSilencieuses( valeursAutoGenerees, preparedStatement, connexion );
+            return false;
+        } catch ( SQLException e ) {
+            throw new DAOException( e );
+        } finally {
+        	DAOUtils.fermeturesSilencieuses( valeursAutoGenerees, preparedStatement, connexion );
+        }
+    }
+
+    @Override
+    public void modifier( Utilisateur utilisateur ) throws DAOException {
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet valeursAutoGenerees = null;
+
+        try {
+            connexion = daoFactory.getConnection();
+            preparedStatement = DAOUtils.initialisationRequetePreparee( connexion, SQL_UPDATE, true,
+            		utilisateur.getNomUtilisateur(), utilisateur.getAdresseMail(),
+            		utilisateur.getMotsDePasse(), utilisateur.getElo(),
+            		utilisateur.getQuestionSecrete(), utilisateur.getReponseSecrete(),
+            		utilisateur.getPermission(), utilisateur.getId() );
+            int statut = preparedStatement.executeUpdate();
+            if ( statut == 0 ) {
+                throw new DAOException( "Échec de la mise à jour du client, aucune ligne ajoutée dans la table." );
+            }
+        } catch ( SQLException e ) {
+            throw new DAOException( e );
+        } finally {
+        	DAOUtils.fermeturesSilencieuses( valeursAutoGenerees, preparedStatement, connexion );
+        }
     }
 
     /* Implémentation de la méthode définie dans l'interface ClientDao */
@@ -73,7 +189,7 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
             preparedStatement = connection.prepareStatement( SQL_SELECT );
             resultSet = preparedStatement.executeQuery();
             while ( resultSet.next() ) {
-            	utilisateurs.add( map( resultSet ) );
+            	utilisateurs.add( (Utilisateur) daoMapperUtilisateur.map(resultSet) );
             }
         } catch ( SQLException e ) {
             throw new DAOException( e );
@@ -128,7 +244,7 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
             resultSet = preparedStatement.executeQuery();
             /* Parcours de la ligne de données retournée dans le ResultSet */
             if ( resultSet.next() ) {
-            	utilisateur = map( resultSet );
+            	utilisateur = (Utilisateur) daoMapperUtilisateur.map( resultSet );
             }
         } catch ( SQLException e ) {
             throw new DAOException( e );
@@ -136,24 +252,6 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
         	DAOUtils.fermeturesSilencieuses( resultSet, preparedStatement, connexion );
         }
 
-        return utilisateur;
-    }
-
-    /*
-     * Simple méthode utilitaire permettant de faire la correspondance (le
-     * mapping) entre une ligne issue de la table des clients (un ResultSet) et
-     * un bean Client.
-     */
-    private static Utilisateur map( ResultSet resultSet ) throws SQLException {
-    	Utilisateur utilisateur = new Utilisateur();
-    	utilisateur.setId( resultSet.getLong( "id" ) );
-    	utilisateur.setNomUtilisateur( resultSet.getString( "nomUtilisateur" ) );
-    	utilisateur.setAdresseMail( resultSet.getString( "adresseMail" ) );
-    	utilisateur.setMotsDePasse( resultSet.getString( "motDePasse" ) );
-    	utilisateur.setElo( resultSet.getInt( "elo" ) );
-    	utilisateur.setQuestionSecrete( resultSet.getInt( "questionSecrete" ) );
-    	utilisateur.setReponseSecrete( resultSet.getString( "reponseSecrete" ) );
-    	utilisateur.setPermission( resultSet.getInt( "permission" ) );
         return utilisateur;
     }
 

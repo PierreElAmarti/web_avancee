@@ -1,15 +1,11 @@
 package model;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
 public class Partie {
 	private Long id;
-	private List<Utilisateur> utilisateurs;
-	private List<Long> scores;
-	private Date date;
-	private String temps;
+	private Long idMaitre;
+	private Utilisateur utilisateur;
+	private Long score;
+	private boolean gagnant;
 	
 	public Long getId() {
 		return id;
@@ -17,29 +13,28 @@ public class Partie {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public List<Utilisateur> getUtilisateurs() {
-		return utilisateurs;
+	public Long getIdMaitre() {
+		return idMaitre;
 	}
-	public void setUtilisateurs(List<Utilisateur> utilisateurs) {
-		this.utilisateurs = utilisateurs;
+	public void setIdMaitre(Long idMaitre) {
+		this.idMaitre = idMaitre;
 	}
-	public List<Long> getScores() {
-		return scores;
+	public Utilisateur getUtilisateur() {
+		return utilisateur;
 	}
-	public void setScores(List<Long> scores) {
-		this.scores = scores;
+	public void setUtilisateur(Utilisateur aUtilisateur) {
+		this.utilisateur = aUtilisateur;
 	}
-	public Date getDate() {
-		return date;
+	public Long getScore() {
+		return score;
 	}
-	public void setDate(Date date) {
-		this.date = date;
+	public void setScore(Long score) {
+		this.score = score;
 	}
-	public String getTemps() {
-		return temps;
+	public boolean isGagnant() {
+		return gagnant;
 	}
-	public void setTemps(String temps) {
-		this.temps = temps;
+	public void setGagnant(boolean gagnant) {
+		this.gagnant = gagnant;
 	}
-	
 }

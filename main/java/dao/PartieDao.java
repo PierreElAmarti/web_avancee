@@ -3,14 +3,14 @@ package dao;
 import java.util.List;
 
 import dao.exception.DAOException;
-import model.Partie;
+import model.PartieMaitre;
 
 public interface PartieDao {
-    void creer( Partie partie ) throws DAOException;
+    void creer( PartieMaitre partie ) throws DAOException;
 
-    Partie trouver( long id ) throws DAOException;
+    PartieMaitre trouver( long id ) throws DAOException;
 
-    List<Partie> lister() throws DAOException;
+    List<PartieMaitre> lister() throws DAOException;
 
-    void supprimer( Partie client ) throws DAOException;
+    void supprimer( PartieMaitre client ) throws DAOException;
 }

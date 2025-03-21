@@ -63,6 +63,10 @@ public class DAOMapper
 					{
 						fields[i].set(vRet, aResultSet.getDate(mapAtributeBDD.get(fields[i].getName())));
 					}
+					else if (boolean.class.equals(fields[i].getType()))
+					{
+						fields[i].set(vRet, (aResultSet.getInt(mapAtributeBDD.get(fields[i].getName())) == 1) ? true : false);
+					}
 				}
 			}
 			return vRet;
