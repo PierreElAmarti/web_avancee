@@ -6,7 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import dao.exception.DAOException;
+
 public class DAOUtils {
+    public static final String CONF_DAO_FACTORY = "daofactory";
+    private static DAOFactory daoFactory;
+    
+    public static void setDAOFactory(DAOFactory aDaoFactory) {
+    	daoFactory = aDaoFactory;
+    }
 	/*
 	 * Initialise la requête préparée basée sur la connexion passée en argument,
 	 * avec la requête SQL et les objets donnés.
@@ -43,13 +51,12 @@ public class DAOUtils {
 
 	/* Fermeture silencieuse de la connexion */
 	public static void fermetureSilencieuse( Connection connexion ) {
-	    if ( connexion != null ) {
-	        try {
-	            connexion.close();
-	        } catch ( SQLException e ) {
-	            System.out.println( "Échec de la fermeture de la connexion : " + e.getMessage() );
-	        }
+	    if ( connexion != null && daoFactory != null ) {
+	        	daoFactory.closeConnection(connexion);
 	    }
+	    else {
+            throw new DAOException( "DAOFactory non initialisée" );
+		}
 	}
 
 	/* Fermetures silencieuses du statement et de la connexion */

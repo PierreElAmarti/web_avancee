@@ -10,7 +10,6 @@ import java.util.List;
 import dao.exception.DAOException;
 import model.PartieMaitre;
 import model.Partie;
-import model.Utilisateur;
 
 public class PartieDaoImpl implements PartieDao {
 	
@@ -20,14 +19,14 @@ public class PartieDaoImpl implements PartieDao {
 	 */
 
 	private static final String SQL_SELECT_MAITRE = "SELECT id, date, time FROM PartieMaitre LIMIT 10";
-	private static final String SQL_SELECT_PARTIE = "SELECT id, idMaitre, score, gagnant, idUtilisateur FROM Partie ";
-	private static final String SQL_SELECT_UTILISATEUR_PAR_ID = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Utilisateur WHERE id = ?";
+//	private static final String SQL_SELECT_PARTIE = "SELECT id, idMaitre, score, gagnant, idUtilisateur FROM Partie ";
+//	private static final String SQL_SELECT_UTILISATEUR_PAR_ID = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Utilisateur WHERE id = ?";
 	private static final String SQL_SELECT_PAR_ID_MAITRE = "SELECT id, date, time FROM PartieMaitre WHERE id = ? LIMIT 10";
 	private static final String SQL_SELECT_PARTIE_PAR_ID_MAITRE = "SELECT id, idMaitre, score, gagnant, idUtilisateur FROM Partie WHERE idMaitre = ? ";
 	private static final String SQL_INSERT_MAITRE = "INSERT INTO PartieMaitre (date, time) VALUES (?, ?)";
     private static final String SQL_INSERT_PARTIE = "INSERT INTO Partie (idMaitre, score, gagnant, idUtilisateur) VALUES (?, ?, ?, ?)";
     private static final String SQL_DELETE_PAR_ID_MAITRE = "DELETE FROM PartieMaitre WHERE id = ?";
-    private static final String SQL_DELETE_PAR_ID_PARTIE = "DELETE FROM Partie WHERE id = ?";
+//    private static final String SQL_DELETE_PAR_ID_PARTIE = "DELETE FROM Partie WHERE id = ?";
 
     private DAOFactory          daoFactory;
     
@@ -36,6 +35,7 @@ public class PartieDaoImpl implements PartieDao {
 
     PartieDaoImpl( DAOFactory daoFactory ) {
         this.daoFactory = daoFactory;
+        DAOUtils.setDAOFactory(daoFactory);
     }
 
     /* Implémentation de la méthode définie dans l'interface PartieDao */

@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.Vector;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import dao.exception.DAOConfigurationException;
 
@@ -21,6 +23,8 @@ public class DAOFactory {
     private String              url;
     private String              username;
     private String              password;
+    private static Vector<Connection> 	connections = new Vector<Connection>();
+    private static AtomicInteger nbConnections = new AtomicInteger(0);
 
     /* package */DAOFactory( String url, String username, String password ) {
         this.url = url;
@@ -70,7 +74,16 @@ public class DAOFactory {
 
     /* Méthode chargée de fournir une connexion à la base de données */
     /* package */Connection getConnection() throws SQLException {
-        return DriverManager.getConnection( url, username, password );
+    	if(connections.isEmpty()) {
+    		if(nbConnections.get() > 150) {
+    			throw new SQLException("Plus de connexions disponible");
+    		}
+    		nbConnections.getAndIncrement();
+    		return DriverManager.getConnection( url, username, password );
+    	}
+    	Connection temp = connections.getFirst();
+    	connections.remove(temp);
+    	return temp;
     }
 
     /*
@@ -79,6 +92,44 @@ public class DAOFactory {
      */
     public UtilisateurDao getUtilisateurDao() {
         return new UtilisateurDaoImpl( this );
+    }
+    
+    public void initConnection(int n) {
+    	try {
+	    	for(int i =0; i < n; i++) {
+	    		nbConnections.getAndIncrement();
+				connections.add(DriverManager.getConnection( url, username, password ));
+	    	}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    public void closeConnection(Connection aConnection) {
+    	if(nbConnections.get() > 100) {
+    		try {
+				aConnection.close();
+				nbConnections.getAndDecrement();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}else {
+    		connections.add(aConnection);
+    	}
+    }
+    
+    public void destroy() {
+    	try {
+	    	for(Connection vConnection : connections) {
+					vConnection.close();
+			}
+	    	nbConnections.set(0);
+    	} catch (SQLException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    	}
     }
     
 }

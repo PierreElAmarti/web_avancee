@@ -20,6 +20,8 @@ public class InitialisationDAOFactory implements ServletContextListener {
      */
     public void contextDestroyed(ServletContextEvent arg0)  { 
          // TODO Auto-generated method stub
+    	daoFactory.destroy();
+    	
     }
 
 	/**
@@ -30,6 +32,7 @@ public class InitialisationDAOFactory implements ServletContextListener {
         ServletContext servletContext = event.getServletContext();
         /* Instanciation de notre DAOFactory */
         this.daoFactory = DAOFactory.getInstance();
+        this.daoFactory.initConnection(50);
         /* Enregistrement dans un attribut ayant pour portée toute l'application */
         servletContext.setAttribute( ATT_DAO_FACTORY, this.daoFactory );
     }

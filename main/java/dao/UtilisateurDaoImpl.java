@@ -27,6 +27,7 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 
     UtilisateurDaoImpl( DAOFactory daoFactory ) {
         this.daoFactory = daoFactory;
+        DAOUtils.setDAOFactory(daoFactory);
     }
 
     /* Implémentation de la méthode définie dans l'interface ClientDao */

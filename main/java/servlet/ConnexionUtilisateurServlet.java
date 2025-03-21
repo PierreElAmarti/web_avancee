@@ -49,29 +49,8 @@ public class ConnexionUtilisateurServlet extends HttpServlet
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
-
-		Utilisateur test = new Utilisateur();
-		test.setId(3L);
-		test.setAdresseMail("test.test@test.test");
-		test.setMotsDePasse("testMdp");
-		test.setNomUtilisateur("updateUsername");
-		test.setElo(15);
-		test.setPermission(1);
-		test.setQuestionSecrete(2);	
-		test.setReponseSecrete("testResponseSecrete");
-//		this.utilisateurDao.supprimer(test);
-//		this.utilisateurDao.creer(test);
-//		List<Utilisateur> temp = this.utilisateurDao.lister();
-//		for(Utilisateur tempUtilisateur: temp) {
-//			System.out.println(tempUtilisateur.getNomUtilisateur());
-//		}
-//		Utilisateur temp = this.utilisateurDao.trouver(1);
-//		System.out.println(((temp != null)?temp.getNomUtilisateur(): "rien"));
-//		this.utilisateurDao.modifier(test);
-//		System.out.println(((this.utilisateurDao.nomUtilisateurDejaPris("updateUsername"))? "Pris" : "Pas Pris"));
-//		Utilisateur test1 = this.utilisateurDao.getByUsernameOrMail("test.test@.test");
-//		System.out.println(((test1 != null)? "existe" : "existe pas"));
 		HttpSession vSession = request.getSession();
+		
 		this.getServletContext().getRequestDispatcher(VUE_FORM).forward(request, response);
 	}
 
