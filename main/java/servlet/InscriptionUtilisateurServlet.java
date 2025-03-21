@@ -18,8 +18,9 @@ public class InscriptionUtilisateurServlet extends HttpServlet
 	private static final long serialVersionUID = 1L;
 	public static final String ATT_UTILISATEUR = "Utilisateur";
 	public static final String ATT_FORM = "form";
+	public static final String ATT_ID = "id";
 
-	public static final String VUE_SUCCES = "/WEB-INF/Acceuil.jsp";
+	public static final String VUE_ACCEUIL = "/WEB-INF/Acceuil.jsp";
 	public static final String VUE_FORM = "/WEB-INF/utilisateur/InscriptionUtilisateur.jsp";
 
 	/**
@@ -38,6 +39,10 @@ public class InscriptionUtilisateurServlet extends HttpServlet
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		HttpSession vSession = request.getSession();
+		if(vSession.getAttribute(ATT_ID) != null) {
+			this.getServletContext().getRequestDispatcher(VUE_ACCEUIL).forward(request, response);
+			return;
+		}
 		this.getServletContext().getRequestDispatcher(VUE_FORM).forward(request, response);
 	}
 
@@ -48,8 +53,11 @@ public class InscriptionUtilisateurServlet extends HttpServlet
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		HttpSession vSession = request.getSession();
-
-		this.getServletContext().getRequestDispatcher(VUE_SUCCES).forward(request, response);
+		if(vSession.getAttribute(ATT_ID) != null) {
+			this.getServletContext().getRequestDispatcher(VUE_ACCEUIL).forward(request, response);
+			return;
+		}
+		this.getServletContext().getRequestDispatcher(VUE_ACCEUIL).forward(request, response);
 
 	}
 

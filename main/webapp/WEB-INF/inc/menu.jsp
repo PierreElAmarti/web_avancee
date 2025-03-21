@@ -10,18 +10,28 @@
             <li class="nav-item active">
                 <a class="nav-link"  href="<c:url value=""/>">Classement</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<c:url value="/InscriptionUtilisateurServlet"/>">Inscription</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<c:url value="/ConnexionUtilisateurServlet"/>">Connexion</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<c:url value=""/>">Profil</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="<c:url value=""/>">Historique</a>
-            </li>
+            
+            <c:choose>
+            	<c:when test="${empty sessionScope.id}">
+		            <li class="nav-item">
+		                <a class="nav-link" href="<c:url value="/InscriptionUtilisateurServlet"/>">Inscription</a>
+		            </li>
+		            <li class="nav-item">
+		                <a class="nav-link" href="<c:url value="/ConnexionUtilisateurServlet"/>">Connexion</a>
+		            </li>
+            	</c:when>
+            	<c:otherwise>
+		            <li class="nav-item">
+		                <a class="nav-link" href="<c:url value=""/>">Déconnexion</a>
+		            </li>
+		            <li class="nav-item">
+		                <a class="nav-link" href="<c:url value=""/>">Profil</a>
+		            </li>
+		            <li class="nav-item">
+		                <a class="nav-link" href="<c:url value=""/>">Compte</a>
+		            </li>
+            	</c:otherwise>
+            </c:choose>
             
         </ul>
     </div>
