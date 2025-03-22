@@ -18,19 +18,19 @@ public class PartieDaoImpl implements PartieDao {
 	 * retourner son classement dans le global
 	 */
 
-	private static final String SQL_SELECT_MAITRE = "SELECT id, date, time FROM PartieMaitre LIMIT 10";
+	private static final String SQL_SELECT_MAITRE = "SELECT id, dateInf, time FROM PartieMaitre LIMIT 10";
 //	private static final String SQL_SELECT_PARTIE = "SELECT id, idMaitre, score, gagnant, idUtilisateur FROM Partie ";
 //	private static final String SQL_SELECT_UTILISATEUR_PAR_ID = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Utilisateur WHERE id = ?";
-	private static final String SQL_SELECT_PAR_ID_MAITRE = "SELECT id, date, time FROM PartieMaitre WHERE id = ? LIMIT 10";
+	private static final String SQL_SELECT_PAR_ID_MAITRE = "SELECT id, dateInf, time FROM PartieMaitre WHERE id = ? LIMIT 10";
 	private static final String SQL_SELECT_PARTIE_PAR_ID_MAITRE = "SELECT id, idMaitre, score, gagnant, idUtilisateur FROM Partie WHERE idMaitre = ? ";
-	private static final String SQL_INSERT_MAITRE = "INSERT INTO PartieMaitre (date, time) VALUES (?, ?)";
+	private static final String SQL_INSERT_MAITRE = "INSERT INTO PartieMaitre (dateInf, time) VALUES (?, ?)";
     private static final String SQL_INSERT_PARTIE = "INSERT INTO Partie (idMaitre, score, gagnant, idUtilisateur) VALUES (?, ?, ?, ?)";
     private static final String SQL_DELETE_PAR_ID_MAITRE = "DELETE FROM PartieMaitre WHERE id = ?";
-//    private static final String SQL_DELETE_PAR_ID_PARTIE = "DELETE FROM Partie WHERE id = ?";
+    private static final String SQL_DELETE_PAR_IDMAITRE_PARTIE = "DELETE FROM Partie WHERE idMaitre = ?";
 
     private DAOFactory          daoFactory;
     
-    private static DAOMapper 			daoMapperPartieMaitre = new DAOMapper().setClass(PartieMaitre.class).setAttribute("id", "id").setAttribute("date", "date").setAttribute("time", "temps");
+    private static DAOMapper 			daoMapperPartieMaitre = new DAOMapper().setClass(PartieMaitre.class).setAttribute("id", "id").setAttribute("dateInf", "date").setAttribute("time", "temps");
     private static DAOMapper 			daoMapperPartie = new DAOMapper().setClass(Partie.class).setAttribute("id", "id").setAttribute("idMaitre", "idMaitre").setAttribute("score", "score").setAttribute("gagnant", "gagnant");
 
     PartieDaoImpl( DAOFactory daoFactory ) {
@@ -41,7 +41,7 @@ public class PartieDaoImpl implements PartieDao {
     /* Implémentation de la méthode définie dans l'interface PartieDao */
     @Override
     public PartieMaitre trouver( long id ) throws DAOException {
-        return trouver( SQL_SELECT_PARTIE_PAR_ID_MAITRE, id );
+        return trouver( SQL_SELECT_PAR_ID_MAITRE, id );
     }
 
     /* Implémentation de la méthode définie dans l'interface PartieDao */
@@ -116,7 +116,7 @@ public class PartieDaoImpl implements PartieDao {
             preparedStatement = DAOUtils.initialisationRequetePreparee( connexion, SQL_DELETE_PAR_ID_MAITRE, true, partie.getId() );
             int statut = preparedStatement.executeUpdate();
             if ( statut == 0 ) {
-                throw new DAOException( "Échec de la suppression de la partie, aucune ligne supprimée de la table." );
+                throw new DAOException( "Échec de la suppression de la partieMaitre, aucune ligne supprimée de la table." );
             } else {
             	partie.setId( null );
             }
@@ -177,7 +177,7 @@ public class PartieDaoImpl implements PartieDao {
              * Préparation de la requête avec les objets passés en arguments
              * (ici, uniquement un id) et exécution.
              */
-            preparedStatement = DAOUtils.initialisationRequetePreparee( connexion, SQL_SELECT_PAR_ID_MAITRE, false, partie.getId() );
+            preparedStatement = DAOUtils.initialisationRequetePreparee( connexion, SQL_SELECT_PARTIE_PAR_ID_MAITRE, false, partie.getId() );
             
             ResultSet tempResultSet = preparedStatement.executeQuery();
             /* Parcours de la ligne de données retournée dans le ResultSet */
@@ -192,7 +192,7 @@ public class PartieDaoImpl implements PartieDao {
     	} catch ( SQLException e ) {
             throw new DAOException( e );
         } finally {
-        	DAOUtils.fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+        	DAOUtils.fermeturesSilencieuses( preparedStatement, connexion );
         }
         return partie;
     }

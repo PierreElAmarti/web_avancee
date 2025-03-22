@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 public class DAOMapper
@@ -61,7 +62,11 @@ public class DAOMapper
 					}
 					else if (Date.class.equals(fields[i].getType()))
 					{
-						fields[i].set(vRet, aResultSet.getDate(mapAtributeBDD.get(fields[i].getName())));
+						try {
+							fields[i].set(vRet, aResultSet.getDate(mapAtributeBDD.get(fields[i].getName())));
+						} catch(SQLException e) {
+							fields[i].set(vRet, new Date(0));
+						}
 					}
 					else if (boolean.class.equals(fields[i].getType()))
 					{

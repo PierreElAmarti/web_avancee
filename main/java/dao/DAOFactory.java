@@ -93,6 +93,9 @@ public class DAOFactory {
     public UtilisateurDao getUtilisateurDao() {
         return new UtilisateurDaoImpl( this );
     }
+    public PartieDao getPartieDao() {
+        return new PartieDaoImpl( this );
+    }
     
     public void initConnection(int n) {
     	try {

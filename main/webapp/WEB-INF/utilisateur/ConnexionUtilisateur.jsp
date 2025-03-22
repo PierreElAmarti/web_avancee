@@ -22,6 +22,7 @@
                 <label for="loginPassword">Mot de passe</label>
                 <input name="motDePasse" type="password" class="form-control" id="loginPassword" placeholder="Entrez votre mot de passe">
             </div>
+            <span class="erreur">${form.erreurs['connexion']}</span>
             <button type="submit" class="btn btn-primary">Se connecter</button>
         </form>
         <p class="mt-3">Pas de compte? <a href="<c:url value="/InscriptionUtilisateurServlet"/>">Connexion </a>
