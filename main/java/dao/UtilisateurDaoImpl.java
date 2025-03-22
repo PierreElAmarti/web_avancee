@@ -14,6 +14,7 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
 
     private static final String SQL_SELECT        = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Utilisateur ORDER BY elo LIMIT 10";
     private static final String SQL_SELECT_PAR_ID = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Utilisateur WHERE id = ?";
+	private static final String SQL_SELECT_CLASSEMENT = "SELECT count(id) as classement FROM Utilisateur where elo >= ?";
     private static final String SQL_SELECT_PAR_NOMUTILISATEUR = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Utilisateur WHERE nomUtilisateur = ?";
     private static final String SQL_SELECT_PAR_ADRESSEMAIL = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Utilisateur WHERE adresseMail = ?";
     private static final String SQL_SELECT_PAR_ADRESSEMAILOUNOMUTILISATEUR = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Utilisateur WHERE adresseMail = ? OR nomUtilisateur = ?";
@@ -34,6 +35,35 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
     @Override
     public Utilisateur trouver( long id ) throws DAOException {
         return trouver( SQL_SELECT_PAR_ID, id );
+    }
+    
+    @Override
+    public Long classement( Utilisateur utilisateur ) throws DAOException {
+        Connection connexion = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Long vRet = null;
+
+        try {
+            /* Récupération d'une connexion depuis la Factory */
+            connexion = daoFactory.getConnection();
+            /*
+             * Préparation de la requête avec les objets passés en arguments
+             * (ici, uniquement un id) et exécution.
+             */
+            preparedStatement = DAOUtils.initialisationRequetePreparee( connexion, SQL_SELECT_CLASSEMENT, false, utilisateur.getElo() );
+            resultSet = preparedStatement.executeQuery();
+            /* Parcours de la ligne de données retournée dans le ResultSet */
+            if ( resultSet.next() ) {
+            	vRet = resultSet.getLong( "classement" ) + 1;
+            }
+        } catch ( SQLException e ) {
+            throw new DAOException( e );
+        } finally {
+        	DAOUtils.fermeturesSilencieuses( resultSet, preparedStatement, connexion );
+        }
+
+        return vRet;
     }
 
     @Override

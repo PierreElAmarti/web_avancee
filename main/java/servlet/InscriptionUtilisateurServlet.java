@@ -53,6 +53,7 @@ public class InscriptionUtilisateurServlet extends HttpServlet
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		HttpSession vSession = request.getSession();
+		// TODO Code pour créer un utilisateur en bdd
 		if(vSession.getAttribute(ATT_ID) != null) {
 			this.getServletContext().getRequestDispatcher(VUE_ACCEUIL).forward(request, response);
 			return;

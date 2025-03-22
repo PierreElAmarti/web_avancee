@@ -9,16 +9,13 @@ import java.util.List;
 
 import dao.exception.DAOException;
 import model.PartieMaitre;
+import model.Utilisateur;
 import model.Partie;
 
 public class PartieDaoImpl implements PartieDao {
-	
-	/*
-	 * Select les partie d'un client trier par le jour 10 dernière
-	 * retourner son classement dans le global
-	 */
 
 	private static final String SQL_SELECT_MAITRE = "SELECT id, dateInf, time FROM PartieMaitre LIMIT 10";
+	private static final String SQL_SELECT_IDMAITRE_PAR_IDUTILISATEUR = "select distinct idMaitre from Partie where idUtilisateur=? order by idMaitre desc limit 10";
 //	private static final String SQL_SELECT_PARTIE = "SELECT id, idMaitre, score, gagnant, idUtilisateur FROM Partie ";
 //	private static final String SQL_SELECT_UTILISATEUR_PAR_ID = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Utilisateur WHERE id = ?";
 	private static final String SQL_SELECT_PAR_ID_MAITRE = "SELECT id, dateInf, time FROM PartieMaitre WHERE id = ? LIMIT 10";
@@ -26,7 +23,7 @@ public class PartieDaoImpl implements PartieDao {
 	private static final String SQL_INSERT_MAITRE = "INSERT INTO PartieMaitre (dateInf, time) VALUES (?, ?)";
     private static final String SQL_INSERT_PARTIE = "INSERT INTO Partie (idMaitre, score, gagnant, idUtilisateur) VALUES (?, ?, ?, ?)";
     private static final String SQL_DELETE_PAR_ID_MAITRE = "DELETE FROM PartieMaitre WHERE id = ?";
-    private static final String SQL_DELETE_PAR_IDMAITRE_PARTIE = "DELETE FROM Partie WHERE idMaitre = ?";
+//    private static final String SQL_DELETE_PAR_IDMAITRE_PARTIE = "DELETE FROM Partie WHERE idMaitre = ?";
 
     private DAOFactory          daoFactory;
     
@@ -36,6 +33,32 @@ public class PartieDaoImpl implements PartieDao {
     PartieDaoImpl( DAOFactory daoFactory ) {
         this.daoFactory = daoFactory;
         DAOUtils.setDAOFactory(daoFactory);
+    }
+    
+    public List<PartieMaitre> historique( Utilisateur utilisateur) throws DAOException{
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<PartieMaitre> parties = new ArrayList<PartieMaitre>();
+
+        try {
+            connection = daoFactory.getConnection();
+            preparedStatement = DAOUtils.initialisationRequetePreparee( connection, SQL_SELECT_IDMAITRE_PAR_IDUTILISATEUR, false, utilisateur.getId() );
+            resultSet = preparedStatement.executeQuery();
+            List<Long> idMaitres = new ArrayList<Long>();
+            while ( resultSet.next() ) {
+            	idMaitres.add(resultSet.getLong( "idMaitre" ));
+            }
+            for(Long idMaitre : idMaitres) {
+            	parties.add(trouver(idMaitre));
+            }
+        } catch ( SQLException e ) {
+            throw new DAOException( e );
+        } finally {
+        	DAOUtils.fermeturesSilencieuses( resultSet, preparedStatement, connection );
+        }
+
+        return parties;
     }
 
     /* Implémentation de la méthode définie dans l'interface PartieDao */

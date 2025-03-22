@@ -22,4 +22,6 @@ public interface UtilisateurDao {
     boolean emailDejaPris(String eMail) throws DAOException;
     
     boolean nomUtilisateurDejaPris(String nomUtilisateur) throws DAOException;
+    
+    Long classement(Utilisateur utilisateur) throws DAOException;
 }
