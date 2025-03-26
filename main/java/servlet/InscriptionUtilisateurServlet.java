@@ -9,6 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.DAOFactory;
+import dao.UtilisateurDao;
+import model.Utilisateur;
+import service.InscriptionUtilisateurService;
+
 /**
  * Servlet implementation class InscriptionUtilisateurServlet
  */
@@ -23,6 +28,9 @@ public class InscriptionUtilisateurServlet extends HttpServlet
 	public static final String VUE_ACCEUIL = "/WEB-INF/Acceuil.jsp";
 	public static final String VUE_FORM = "/WEB-INF/utilisateur/InscriptionUtilisateur.jsp";
 
+	public static final String CONF_DAO_FACTORY = "daofactory";
+	private UtilisateurDao utilisateurDao;
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -32,6 +40,11 @@ public class InscriptionUtilisateurServlet extends HttpServlet
 		// TODO Auto-generated constructor stub
 	}
 
+	public void init() throws ServletException
+	{
+		this.utilisateurDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getUtilisateurDao();
+	}
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
@@ -39,7 +52,8 @@ public class InscriptionUtilisateurServlet extends HttpServlet
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
 	{
 		HttpSession vSession = request.getSession();
-		if(vSession.getAttribute(ATT_ID) != null) {
+		if (vSession.getAttribute(ATT_ID) != null)
+		{
 			this.getServletContext().getRequestDispatcher(VUE_ACCEUIL).forward(request, response);
 			return;
 		}
@@ -54,11 +68,28 @@ public class InscriptionUtilisateurServlet extends HttpServlet
 	{
 		HttpSession vSession = request.getSession();
 		// TODO Code pour créer un utilisateur en bdd
-		if(vSession.getAttribute(ATT_ID) != null) {
+		if (vSession.getAttribute(ATT_ID) != null)
+		{
 			this.getServletContext().getRequestDispatcher(VUE_ACCEUIL).forward(request, response);
 			return;
 		}
-		this.getServletContext().getRequestDispatcher(VUE_ACCEUIL).forward(request, response);
+
+		InscriptionUtilisateurService form = new InscriptionUtilisateurService();
+
+		Utilisateur utilisateur = form.creationUtilisateur(request);
+
+		if (form.getErreurs().isEmpty())
+		{
+			utilisateurDao.creer(utilisateur);
+			vSession.setAttribute(ATT_ID, utilisateur.getId());
+			this.getServletContext().getRequestDispatcher(VUE_ACCEUIL).forward(request, response);
+		}
+		else
+		{
+			request.setAttribute(ATT_UTILISATEUR, utilisateur);
+			request.setAttribute(ATT_FORM, form);
+			this.getServletContext().getRequestDispatcher(VUE_FORM).forward(request, response);
+		}
 
 	}
 
