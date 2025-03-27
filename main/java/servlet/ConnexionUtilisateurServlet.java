@@ -90,8 +90,6 @@ public class ConnexionUtilisateurServlet extends HttpServlet
 			request.setAttribute(ATT_FORM, form);
 			this.getServletContext().getRequestDispatcher(VUE_FORM).forward(request, response);
 		}
-
-		this.getServletContext().getRequestDispatcher(VUE_ACCEUIL).forward(request, response);
 	}
 
 }

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import dao.DAOFactory;
 import dao.UtilisateurDao;
 import model.Utilisateur;
+import service.CompteService;
 
 /**
  * Servlet implementation class CompteServlet
@@ -26,7 +27,7 @@ public class CompteServlet extends HttpServlet
 	public static final String ATT_ID = "id";
 
 	public static final String VUE_CONNEXION = "/ConnexionUtilisateurServlet";
-	public static final String VUE_FORM = "/WEB-INF/utilisateur/ConnexionUtilisateur.jsp";
+	public static final String VUE_FORM = "/WEB-INF/utilisateur/Compte.jsp";
 
 	private UtilisateurDao utilisateurDao;
 
@@ -71,6 +72,22 @@ public class CompteServlet extends HttpServlet
 		{
 			this.getServletContext().getRequestDispatcher(VUE_CONNEXION).forward(request, response);
 			return;
+		}
+		Utilisateur utilisateur = utilisateurDao.trouver((Long) (vSession.getAttribute(ATT_ID)));
+
+		CompteService form = new CompteService(utilisateurDao);
+
+		utilisateur = form.updateUtilisateur(request, utilisateur);
+
+		if (form.getErreurs().isEmpty())
+		{
+			utilisateurDao.modifier(utilisateur);
+			this.getServletContext().getRequestDispatcher(VUE_FORM).forward(request, response);
+		}
+		else
+		{
+			request.setAttribute(ATT_FORM, form);
+			this.getServletContext().getRequestDispatcher(VUE_FORM).forward(request, response);
 		}
 	}
 

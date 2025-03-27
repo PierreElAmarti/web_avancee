@@ -1,8 +1,5 @@
 package service;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -10,7 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import dao.UtilisateurDao;
 import model.Utilisateur;
 
-public class InscriptionUtilisateurService
+public class InscriptionUtilisateurService extends FormService
 {
 
 	private static final String CHAMP_USERNAME = "nomUtilisateur";
@@ -19,8 +16,6 @@ public class InscriptionUtilisateurService
 	private static final String CHAMP_CONFIRMER_MOT_DE_PASSE = "confirmerMotDePasse";
 	private static final String CHAMP_QUESTION_SECRETE = "questionSecrete";
 	private static final String CHAMP_REPONSE_QUESTION_SECRETE = "reponseQuestionSecrete";
-
-	private Map<String, String> erreurs = new HashMap<String, String>();
 
 	private UtilisateurDao utilisateurDao;
 
@@ -202,28 +197,5 @@ public class InscriptionUtilisateurService
 		{
 			throw new Exception("Merci d'entrer une réponse à la question secrete.");
 		}
-	}
-
-	private void setErreur(String champ, String message)
-	{
-		erreurs.put(champ, message);
-	}
-
-	private static String getValeurChamp(HttpServletRequest request, String nomChamp)
-	{
-		String valeur = request.getParameter(nomChamp);
-		if (valeur == null || valeur.trim().length() == 0)
-		{
-			return null;
-		}
-		else
-		{
-			return valeur;
-		}
-	}
-
-	public Map<String, String> getErreurs()
-	{
-		return erreurs;
 	}
 }

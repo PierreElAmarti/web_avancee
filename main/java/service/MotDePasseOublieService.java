@@ -1,8 +1,5 @@
 package service;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -10,7 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import dao.UtilisateurDao;
 import model.Utilisateur;
 
-public class MotDePasseOublieService
+public class MotDePasseOublieService extends FormService
 {
 
 	private static final String CHAMP_USERNAME = "nomUtilisateur";
@@ -18,8 +15,6 @@ public class MotDePasseOublieService
 	private static final String CHAMP_CONFIRMER_MOT_DE_PASSE = "confirmerMotDePasse";
 	private static final String CHAMP_QUESTION_SECRETE = "questionSecrete";
 	private static final String CHAMP_REPONSE_QUESTION_SECRETE = "reponseQuestionSecrete";
-
-	private Map<String, String> erreurs = new HashMap<String, String>();
 
 	private UtilisateurDao utilisateurDao;
 
@@ -156,29 +151,6 @@ public class MotDePasseOublieService
 		{
 			throw new Exception("La question secrete est invalide");
 		}
-	}
-
-	private static String getValeurChamp(HttpServletRequest request, String nomChamp)
-	{
-		String valeur = request.getParameter(nomChamp);
-		if (valeur == null || valeur.trim().length() == 0)
-		{
-			return null;
-		}
-		else
-		{
-			return valeur;
-		}
-	}
-
-	private void setErreur(String champ, String message)
-	{
-		erreurs.put(champ, message);
-	}
-
-	public Map<String, String> getErreurs()
-	{
-		return erreurs;
 	}
 
 	public String getNomUtilisateur()
