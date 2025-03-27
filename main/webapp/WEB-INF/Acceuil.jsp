@@ -37,5 +37,9 @@
             </table>
             </c:otherwise>
         </c:choose>
+        
+        <c:if test="${ ! empty utilisateur }">
+            <p class="erreur">Connecté.</p>
+        </c:if>
 </body>
 </html>
