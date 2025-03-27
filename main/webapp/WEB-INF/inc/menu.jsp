@@ -22,7 +22,7 @@
             	</c:when>
             	<c:otherwise>
 		            <li class="nav-item">
-		                <a class="nav-link" href="<c:url value=""/>">Déconnexion</a>
+		                <a class="nav-link" href="<c:url value="/DeconnexionUtilisateurServlet"/>">Déconnexion</a>
 		            </li>
 		            <li class="nav-item">
 		                <a class="nav-link" href="<c:url value=""/>">Profil</a>
