@@ -24,11 +24,17 @@
 		</div>
 		<div class="h-100 d-flex align-items-center justify-content-center">
 	       	<table class="table table-striped">
-	       		<c:forEach items="${ parties }" var="mapParties" varStatus="boucle">
+	       		<c:forEach items="${ parties }" var="mapPartiesMaitre" varStatus="boucle">
 	           		<tr>
-	                    <td><c:out value="${ mapParties.id }"/></td>
-	                    <td><c:out value="${ mapParties.date }"/></td>
-	                    <td><c:out value="${ mapParties.temps }"/></td>
+	                    <td><c:out value="${ mapPartiesMaitre.date }"/></td>
+	                    <td><c:out value="${ mapPartiesMaitre.temps }"/></td>
+	                    
+	       				<c:forEach items="${ mapPartiesMaitre.partieFils }" var="mapParties" varStatus="boucle">
+	                    	<td><c:out value="${ mapParties.utilisateur.nomUtilisateur }"/></td>
+	                    	<td><c:out value="${ mapParties.score }"/></td>
+	                    	<td><c:out value="${ mapParties.gagnant }"/></td>
+	                    	
+	       				</c:forEach>
 	                </tr>
                </c:forEach>
           	</table>
