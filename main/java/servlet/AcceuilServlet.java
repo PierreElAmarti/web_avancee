@@ -52,10 +52,16 @@ public class AcceuilServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		 HttpSession session = request.getSession();
          List<Utilisateur> utilisateurs = utilisateurDao.lister();
+         
+         for(Utilisateur user : utilisateurs) {
+        	 user.setClassement(utilisateurDao.classement(user));
+         }
 
  		if (session.getAttribute(ATT_ID) != null)
  		{
- 			request.setAttribute( ATT_UTILISATEUR, utilisateurDao.trouver( (Long) session.getAttribute(ATT_ID) ) );
+ 			Utilisateur user = utilisateurDao.trouver( (Long) session.getAttribute(ATT_ID) );
+ 			user.setClassement(utilisateurDao.classement(user));
+ 			request.setAttribute( ATT_UTILISATEUR, user );
          }
          
          /* Et enfin (ré)enregistrement de la map en session */

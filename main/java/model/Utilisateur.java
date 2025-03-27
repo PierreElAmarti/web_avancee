@@ -10,6 +10,17 @@ public class Utilisateur
 	private Integer questionSecrete;
 	private String reponseSecrete;
 	private Integer permission;
+	private Long classement = null;
+
+	public Long getClassement()
+	{
+		return classement;
+	}
+
+	public void setClassement(Long aClassement)
+	{
+		this.classement = aClassement;
+	}
 
 	public Long getId()
 	{

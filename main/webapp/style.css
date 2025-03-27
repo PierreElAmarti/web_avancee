@@ -1,3 +1,33 @@
 .erreur {
     color: #900;
 }
+
+.gold {
+	background-color: #FFD700 !important; 
+}
+
+.silver {
+	background-color: #C0C0C0 !important;
+}
+
+.bronze {
+	background-color: #CD7F32 !important; 
+}
+
+table {
+	width:50% !important;
+  	text-align: center;
+}
+
+th {
+  text-align: center;
+}
+
+.blank_space{
+	background-color:#FFFFFF !important;
+	line-height: 500%;
+}
+
+
+
+

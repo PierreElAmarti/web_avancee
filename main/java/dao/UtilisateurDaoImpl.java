@@ -12,15 +12,15 @@ import model.Utilisateur;
 
 public class UtilisateurDaoImpl implements UtilisateurDao {
 
-    private static final String SQL_SELECT        = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Utilisateur ORDER BY elo LIMIT 20";
+    private static final String SQL_SELECT        = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Utilisateur ORDER BY elo DESC LIMIT 20";
     private static final String SQL_SELECT_PAR_ID = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Utilisateur WHERE id = ?";
-	private static final String SQL_SELECT_CLASSEMENT = "SELECT count(id) as classement FROM Utilisateur where elo >= ? AND (permission < 10)";
+	private static final String SQL_SELECT_CLASSEMENT = "SELECT count(distinct elo) as classement FROM Utilisateur where elo > ?";
     private static final String SQL_SELECT_PAR_NOMUTILISATEUR = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Utilisateur WHERE nomUtilisateur = ?";
     private static final String SQL_SELECT_PAR_ADRESSEMAIL = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Utilisateur WHERE adresseMail = ?";
     private static final String SQL_SELECT_PAR_ADRESSEMAILOUNOMUTILISATEUR = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Utilisateur WHERE (adresseMail = ? OR nomUtilisateur = ?)";
     private static final String SQL_INSERT        = "INSERT INTO Utilisateur (nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    private static final String SQL_UPDATE        = "UPDATE Utilisateur SET nomUtilisateur=?, adresseMail=?, motDePasse=?, elo=?, questionSecrete=?, reponseSecrete=?, permission=? WHERE id=? AND (permission < 10)";
-    private static final String SQL_DELETE_PAR_ID = "DELETE FROM Utilisateur WHERE id = ? AND (permission < 10)";
+    private static final String SQL_UPDATE        = "UPDATE Utilisateur SET nomUtilisateur=?, adresseMail=?, motDePasse=?, elo=?, questionSecrete=?, reponseSecrete=?, permission=? WHERE id=?";
+    private static final String SQL_DELETE_PAR_ID = "DELETE FROM Utilisateur WHERE id = ?";
 
     private DAOFactory          daoFactory;
     

@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 public class DeconnexionUtilisateurServlet extends HttpServlet
 {
 	private static final long serialVersionUID = 1L;
-	public static final String VUE_ACCEUIL = "/WEB-INF/Acceuil.jsp";
+	public static final String VUE_ACCEUIL = "/AcceuilServlet";
 	public static final String ATT_ID = "id";
 
 	/**
