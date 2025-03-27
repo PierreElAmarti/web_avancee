@@ -83,7 +83,8 @@ public class MotDePasseOublieServlet extends HttpServlet
 			}
 			else
 			{
-				this.getServletContext().getRequestDispatcher(VUE_CONNEXION).forward(request, response);
+				response.sendRedirect(request.getContextPath() + VUE_CONNEXION);
+				//this.getServletContext().getRequestDispatcher(VUE_CONNEXION).forward(request, response);
 			}
 		}
 		else

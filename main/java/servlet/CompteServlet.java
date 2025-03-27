@@ -22,7 +22,7 @@ public class CompteServlet extends HttpServlet
 {
 	private static final long serialVersionUID = 1L;
 	public static final String CONF_DAO_FACTORY = "daofactory";
-	public static final String ATT_UTILISATEUR = "Utilisateur";
+	public static final String ATT_UTILISATEUR = "utilisateur";
 	public static final String ATT_FORM = "form";
 	public static final String ATT_ID = "id";
 
@@ -82,11 +82,13 @@ public class CompteServlet extends HttpServlet
 		if (form.getErreurs().isEmpty())
 		{
 			utilisateurDao.modifier(utilisateur);
+			request.setAttribute(ATT_UTILISATEUR, utilisateur);
 			this.getServletContext().getRequestDispatcher(VUE_FORM).forward(request, response);
 		}
 		else
 		{
 			request.setAttribute(ATT_FORM, form);
+			request.setAttribute(ATT_UTILISATEUR, utilisateur);
 			this.getServletContext().getRequestDispatcher(VUE_FORM).forward(request, response);
 		}
 	}

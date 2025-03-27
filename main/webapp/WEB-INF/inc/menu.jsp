@@ -28,7 +28,7 @@
 		                <a class="nav-link" href="<c:url value="/ProfilServlet"/>">Profil</a>
 		            </li>
 		            <li class="nav-item">
-		                <a class="nav-link" href="<c:url value=""/>">Compte</a>
+		                <a class="nav-link" href="<c:url value="/CompteServlet"/>">Compte</a>
 		            </li>
 		    		<c:if test="${ sessionScope.permission > 9 }">
 			            <li class="nav-item">
