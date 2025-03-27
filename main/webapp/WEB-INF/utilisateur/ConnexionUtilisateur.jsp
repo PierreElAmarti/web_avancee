@@ -13,10 +13,10 @@
 	<c:import url="/WEB-INF/inc/menu.jsp" />
     <div class="container mt-5">
         <h2>Connexion</h2>
-        <form>
+       	<form method="post" action="<c:url value="/ConnexionUtilisateurServlet"/>">
             <div class="form-group">
                 <label for="loginUsername">Nom d'utilisateur</label>
-                <input name="nomUtilisateur" type="text" class="form-control" id="loginUsername" placeholder="Entrez votre nom d'utilisateur">
+                <input name="nomUtilisateur" type="text" class="form-control" id="loginUsername" value="${form.nomUtilisateur}" placeholder="Entrez votre nom d'utilisateur">
             </div>
             <div class="form-group">
                 <label for="loginPassword">Mot de passe</label>

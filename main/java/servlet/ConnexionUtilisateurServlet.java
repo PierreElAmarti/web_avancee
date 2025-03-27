@@ -10,8 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.DAOFactory;
-import dao.PartieDao;
 import dao.UtilisateurDao;
+import model.Utilisateur;
+import service.ConnexionUtilisateurService;
 
 /**
  * Servlet implementation class ConnectionUtilisateurServlet
@@ -29,7 +30,6 @@ public class ConnexionUtilisateurServlet extends HttpServlet
 	public static final String VUE_FORM = "/WEB-INF/utilisateur/ConnexionUtilisateur.jsp";
 
 	private UtilisateurDao utilisateurDao;
-	private PartieDao partieDao;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -43,7 +43,6 @@ public class ConnexionUtilisateurServlet extends HttpServlet
 	public void init() throws ServletException
 	{
 		this.utilisateurDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getUtilisateurDao();
-		this.partieDao = ((DAOFactory) getServletContext().getAttribute(CONF_DAO_FACTORY)).getPartieDao();
 	}
 
 	/**
@@ -74,6 +73,22 @@ public class ConnexionUtilisateurServlet extends HttpServlet
 			this.getServletContext().getRequestDispatcher(VUE_ACCEUIL).forward(request, response);
 			return;
 		}
+
+		ConnexionUtilisateurService form = new ConnexionUtilisateurService(utilisateurDao);
+
+		Utilisateur utilisateur = form.getUtilisateur(request);
+
+		if (form.getErreurs().isEmpty())
+		{
+			vSession.setAttribute(ATT_ID, utilisateur.getId());
+			this.getServletContext().getRequestDispatcher(VUE_ACCEUIL).forward(request, response);
+		}
+		else
+		{
+			request.setAttribute(ATT_FORM, form);
+			this.getServletContext().getRequestDispatcher(VUE_FORM).forward(request, response);
+		}
+
 		this.getServletContext().getRequestDispatcher(VUE_ACCEUIL).forward(request, response);
 	}
 
