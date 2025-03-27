@@ -17,7 +17,8 @@
 	  		<option value="4">Quel etait votre premier numéro de téléphone ?</option>
 	  		<option value="5">Quel etait le nom de votre premier animal de compagnie ?</option>
 		</select>
-    	<input name="reponseQuestionSecrete" type="text" class="form-control" id="reponseQuestionSecrete" placeholder="Entrez la réponse à la question secrète">
+    	<input name="reponseQuestionSecrete" type="text" class="form-control" id="reponseQuestionSecrete" placeholder="Entrez la réponse à la question secrète" >
+		<span class="erreur">${form.erreurs['questionSecrete']}</span>
 	</div>
 </body>
 </html>

@@ -21,7 +21,7 @@ import service.InscriptionUtilisateurService;
 public class InscriptionUtilisateurServlet extends HttpServlet
 {
 	private static final long serialVersionUID = 1L;
-	public static final String ATT_UTILISATEUR = "Utilisateur";
+	public static final String ATT_UTILISATEUR = "utilisateur";
 	public static final String ATT_FORM = "form";
 	public static final String ATT_ID = "id";
 
@@ -74,7 +74,7 @@ public class InscriptionUtilisateurServlet extends HttpServlet
 			return;
 		}
 
-		InscriptionUtilisateurService form = new InscriptionUtilisateurService();
+		InscriptionUtilisateurService form = new InscriptionUtilisateurService(utilisateurDao);
 
 		Utilisateur utilisateur = form.creationUtilisateur(request);
 

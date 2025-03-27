@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
+import dao.UtilisateurDao;
 import model.Utilisateur;
 
 public class InscriptionUtilisateurService
@@ -20,6 +21,14 @@ public class InscriptionUtilisateurService
 	private static final String CHAMP_REPONSE_QUESTION_SECRETE = "reponseQuestionSecrete";
 
 	private Map<String, String> erreurs = new HashMap<String, String>();
+
+	private UtilisateurDao utilisateurDao;
+
+	public InscriptionUtilisateurService(UtilisateurDao utilisateurDao)
+	{
+		super();
+		this.utilisateurDao = utilisateurDao;
+	}
 
 	public Utilisateur creationUtilisateur(HttpServletRequest request)
 	{
@@ -65,7 +74,7 @@ public class InscriptionUtilisateurService
 		}
 		catch (Exception e)
 		{
-			setErreur(CHAMP_MOT_DE_PASSE, e.getMessage());
+			setErreur(CHAMP_CONFIRMER_MOT_DE_PASSE, e.getMessage());
 		}
 
 		try
@@ -88,7 +97,10 @@ public class InscriptionUtilisateurService
 
 		vRet.setNomUtilisateur(username);
 		vRet.setAdresseMail(email);
-		vRet.setMotsDePasse(BCrypt.hashpw(motDePasse, BCrypt.gensalt()));
+		if (motDePasse != null)
+		{
+			vRet.setMotsDePasse(BCrypt.hashpw(motDePasse, BCrypt.gensalt()));
+		}
 		try
 		{
 			vRet.setQuestionSecrete(Integer.parseInt(questionSecrete));
@@ -97,7 +109,10 @@ public class InscriptionUtilisateurService
 		{
 			setErreur(CHAMP_QUESTION_SECRETE, "La question secrete est invalide");
 		}
-		vRet.setReponseSecrete(BCrypt.hashpw(reponseQuestionSecrete, BCrypt.gensalt()));
+		if (reponseQuestionSecrete != null)
+		{
+			vRet.setReponseSecrete(BCrypt.hashpw(reponseQuestionSecrete, BCrypt.gensalt()));
+		}
 		vRet.setElo(1000);
 		vRet.setPermission(1);
 
@@ -111,6 +126,10 @@ public class InscriptionUtilisateurService
 			if (username.length() < 2)
 			{
 				throw new Exception("Le nom d'utilisateur doit contenir au moins 2 caractères.");
+			}
+			else if (utilisateurDao.nomUtilisateurDejaPris(username))
+			{
+				throw new Exception("ce nom d'utilisateur est déjà pris.");
 			}
 		}
 		else
@@ -126,6 +145,10 @@ public class InscriptionUtilisateurService
 			if (!email.matches("([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)"))
 			{
 				throw new Exception("Merci de saisir une adresse mail valide.");
+			}
+			else if (utilisateurDao.emailDejaPris(email))
+			{
+				throw new Exception("cette email est déjà pris.");
 			}
 		}
 		else

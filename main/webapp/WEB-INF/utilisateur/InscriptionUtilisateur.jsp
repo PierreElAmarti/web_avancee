@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+   	<link type="text/css" rel="stylesheet" href="<c:url value="/style.css"/>" />
 </head>
 <body>
 	<c:import url="/WEB-INF/inc/menu.jsp" />
@@ -15,12 +16,12 @@
         <form method="post" action="<c:url value="/InscriptionUtilisateurServlet"/>">
             <div class="form-group">
                 <label for="username">Nom d'utilisateur</label>
-                <input name="nomUtilisateur" type="text" class="form-control" id="username" placeholder="Entrez votre nom d'utilisateur">
+                <input name="nomUtilisateur" type="text" class="form-control" id="username" value="${utilisateur.nomUtilisateur}" placeholder="Entrez votre nom d'utilisateur">
             <span class="erreur">${form.erreurs['nomUtilisateur']}</span>
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
-                <input name="email" type="text" class="form-control" id="email" placeholder="Entrez votre email">
+                <input name="email" type="text" class="form-control" id="email" value="${utilisateur.adresseMail}" placeholder="Entrez votre email">
             <span class="erreur">${form.erreurs['email']}</span>
             </div>
             <div class="form-group">
@@ -35,7 +36,6 @@
             </div>
             
             <c:import url="/WEB-INF/inc/questionSecrete.jsp" />
-            <span class="erreur">${form.erreurs['questionSecrete']}</span>
             
             <button type="submit" class="btn btn-primary">S'inscrire</button>
         </form>
