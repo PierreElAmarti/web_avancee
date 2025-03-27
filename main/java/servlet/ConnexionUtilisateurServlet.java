@@ -25,6 +25,7 @@ public class ConnexionUtilisateurServlet extends HttpServlet
 	public static final String ATT_UTILISATEUR = "Utilisateur";
 	public static final String ATT_FORM = "form";
 	public static final String ATT_ID = "id";
+	public static final String ATT_PERMISSION = "permission";
 
 	public static final String VUE_ACCEUIL = "/AcceuilServlet";
 	public static final String VUE_FORM = "/WEB-INF/utilisateur/ConnexionUtilisateur.jsp";
@@ -81,6 +82,7 @@ public class ConnexionUtilisateurServlet extends HttpServlet
 		if (form.getErreurs().isEmpty())
 		{
 			vSession.setAttribute(ATT_ID, utilisateur.getId());
+			vSession.setAttribute(ATT_PERMISSION, utilisateur.getPermission());
 			this.getServletContext().getRequestDispatcher(VUE_ACCEUIL).forward(request, response);
 		}
 		else

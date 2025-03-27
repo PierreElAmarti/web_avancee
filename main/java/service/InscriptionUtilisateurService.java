@@ -188,13 +188,12 @@ public class InscriptionUtilisateurService
 		}
 	}
 
-	private int validationQuestionSecrete(String questionSecrete) throws Exception
+	private void validationQuestionSecrete(String questionSecrete) throws Exception
 	{
 		if (questionSecrete == null || Integer.parseInt(questionSecrete) > 5 || Integer.parseInt(questionSecrete) < 0)
 		{
 			throw new Exception("La question secrete est invalide");
 		}
-		return Integer.parseInt(questionSecrete);
 	}
 
 	private void validationReponseQuestionSecrete(String reponseQuestionSecrete) throws Exception

@@ -4,6 +4,7 @@ import java.util.List;
 
 import dao.exception.DAOException;
 import model.PartieMaitre;
+import model.Utilisateur;
 
 public interface PartieDao
 {
@@ -14,4 +15,5 @@ public interface PartieDao
 	List<PartieMaitre> lister() throws DAOException;
 
 	void supprimer(PartieMaitre client) throws DAOException;
+	List<PartieMaitre> historique(Utilisateur utilisateur) throws DAOException;
 }

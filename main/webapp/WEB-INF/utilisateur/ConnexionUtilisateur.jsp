@@ -26,7 +26,7 @@
             <button type="submit" class="btn btn-primary">Se connecter</button>
         </form>
         <p class="mt-3">Pas de compte? <a href="<c:url value="/InscriptionUtilisateurServlet"/>">Connexion </a></p>
-        <p><a href="<c:url value="InscriptionUtilisateurServlet"/>">Mot de passe oublié ? </a></p>
+        <p><a href="<c:url value="/MotDePasseOublieServlet"/>">Mot de passe oublié ? </a></p>
     </div>
 </body>
 </html>

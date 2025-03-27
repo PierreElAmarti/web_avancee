@@ -25,11 +25,16 @@
 		                <a class="nav-link" href="<c:url value="/DeconnexionUtilisateurServlet"/>">Déconnexion</a>
 		            </li>
 		            <li class="nav-item">
-		                <a class="nav-link" href="<c:url value=""/>">Profil</a>
+		                <a class="nav-link" href="<c:url value="/ProfilServlet"/>">Profil</a>
 		            </li>
 		            <li class="nav-item">
 		                <a class="nav-link" href="<c:url value=""/>">Compte</a>
 		            </li>
+		    		<c:if test="${ sessionScope.permission > 9 }">
+			            <li class="nav-item">
+			                <a class="nav-link"  href="<c:url value="/AdminServlet"/>">Ajouter une partie</a>
+			            </li>
+		    		</c:if>
             	</c:otherwise>
             </c:choose>
             

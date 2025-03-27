@@ -18,6 +18,7 @@ public class DeconnexionUtilisateurServlet extends HttpServlet
 	private static final long serialVersionUID = 1L;
 	public static final String VUE_ACCEUIL = "/AcceuilServlet";
 	public static final String ATT_ID = "id";
+	public static final String ATT_PERMISSION = "permission";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -39,6 +40,10 @@ public class DeconnexionUtilisateurServlet extends HttpServlet
 		if (vSession.getAttribute(ATT_ID) != null)
 		{
 			vSession.setAttribute(ATT_ID, null);
+		}
+		if (vSession.getAttribute(ATT_PERMISSION) != null)
+		{
+			vSession.setAttribute(ATT_PERMISSION, null);
 		}
 		this.getServletContext().getRequestDispatcher(VUE_ACCEUIL).forward(request, response);
 	}

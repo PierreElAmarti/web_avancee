@@ -12,9 +12,27 @@
 </head>
 <body>
 	<c:import url="/WEB-INF/inc/menu.jsp" />
-	<div class="h-100 d-flex align-items-center justify-content-center">
-		
-	</div>
-
+    <c:if test="${ ! empty utilisateur }">
+		<div class="h-100 d-flex align-items-center justify-content-center">
+        	<table class="table table-striped">
+                <tr>
+                    <th><c:out value="${ utilisateur.classement }"/></th>           
+                    <th><c:out value="${ utilisateur.nomUtilisateur }"/></th>
+                    <th><c:out value="${ utilisateur.elo }"/></th>   
+                </tr>
+        	</table>
+		</div>
+		<div class="h-100 d-flex align-items-center justify-content-center">
+	       	<table class="table table-striped">
+	       		<c:forEach items="${ parties }" var="mapParties" varStatus="boucle">
+	           		<tr>
+	                    <td><c:out value="${ mapParties.id }"/></td>
+	                    <td><c:out value="${ mapParties.date }"/></td>
+	                    <td><c:out value="${ mapParties.temps }"/></td>
+	                </tr>
+               </c:forEach>
+          	</table>
+		</div>
+    </c:if>
 </body>
 </html>

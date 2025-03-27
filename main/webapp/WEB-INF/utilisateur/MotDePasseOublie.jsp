@@ -13,7 +13,7 @@
 	<c:import url="/WEB-INF/inc/menu.jsp" />
     <div class="container mt-5">
         <h2>Changement de mot de passe</h2>
-       	<form method="post" action="<c:url value="/ConnexionUtilisateurServlet"/>">
+       	<form method="post" action="<c:url value="/MotDePasseOublieServlet"/>">
        	
        	<c:if test="${empty sessionScope.id}">
             <div class="form-group">

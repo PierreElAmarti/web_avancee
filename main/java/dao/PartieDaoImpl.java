@@ -38,7 +38,8 @@ public class PartieDaoImpl implements PartieDao
 		this.daoFactory = daoFactory;
 		DAOUtils.setDAOFactory(daoFactory);
 	}
-
+	
+	@Override
 	public List<PartieMaitre> historique(Utilisateur utilisateur) throws DAOException
 	{
 		Connection connection = null;
