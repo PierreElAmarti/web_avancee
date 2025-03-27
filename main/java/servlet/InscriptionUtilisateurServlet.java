@@ -25,7 +25,7 @@ public class InscriptionUtilisateurServlet extends HttpServlet
 	public static final String ATT_FORM = "form";
 	public static final String ATT_ID = "id";
 
-	public static final String VUE_ACCEUIL = "/WEB-INF/Acceuil.jsp";
+	public static final String VUE_ACCEUIL = "/AcceuilServlet";
 	public static final String VUE_FORM = "/WEB-INF/utilisateur/InscriptionUtilisateur.jsp";
 
 	public static final String CONF_DAO_FACTORY = "daofactory";

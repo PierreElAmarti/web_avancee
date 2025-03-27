@@ -12,7 +12,7 @@ import model.Utilisateur;
 
 public class UtilisateurDaoImpl implements UtilisateurDao {
 
-    private static final String SQL_SELECT        = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Utilisateur ORDER BY elo LIMIT 10";
+    private static final String SQL_SELECT        = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Utilisateur ORDER BY elo LIMIT 20";
     private static final String SQL_SELECT_PAR_ID = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Utilisateur WHERE id = ?";
 	private static final String SQL_SELECT_CLASSEMENT = "SELECT count(id) as classement FROM Utilisateur where elo >= ?";
     private static final String SQL_SELECT_PAR_NOMUTILISATEUR = "SELECT id, nomUtilisateur, adresseMail, motDePasse, elo, questionSecrete, reponseSecrete, permission FROM Utilisateur WHERE nomUtilisateur = ?";
