@@ -34,10 +34,10 @@
                     <th scope="col">Date</th>           
                     <th scope="col">Temps</th>
                     <th scope="col">Nom d'utilisateur</th>   
-                    <th scope="col">Elo</th>           
+                    <th scope="col">Score</th>           
                     <th scope="col">Gagnant</th>
                     <th scope="col">Nom d'utilisateur</th>  
-                    <th scope="col">Elo</th>           
+                    <th scope="col">Score</th>           
                     <th scope="col">Gagnant</th> 
                 </tr>
 	       		<c:forEach items="${ parties }" var="mapPartiesMaitre" varStatus="boucle">
@@ -48,10 +48,10 @@
 	       				<c:forEach items="${ mapPartiesMaitre.partieFils }" var="mapParties" varStatus="boucle">
 	                    	<td><c:out value="${ mapParties.utilisateur.nomUtilisateur }"/></td>
 	                    	<td><c:out value="${ mapParties.score }"/></td>
-	                    	<c:if test="${ mapParties.gagnant == true }">
+	                    	<c:if test="${ mapParties.gagnant == false }">
 	                    		<td>Oui</td>
 	                    	</c:if>
-	                    	<c:if test="${ mapParties.gagnant == false }">
+	                    	<c:if test="${ mapParties.gagnant == true }">
 	                    		<td>Non</td>
 	                    	</c:if>
 	       				</c:forEach>
