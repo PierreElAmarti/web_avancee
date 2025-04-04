@@ -12,7 +12,7 @@ import model.Partie;
 import model.PartieMaitre;
 import model.Utilisateur;
 
-public class PartieDaoImpl implements PartieDao
+public class PartieDaoSQL implements PartieDao
 {
 
 	private static final String SQL_SELECT_MAITRE = "SELECT id, dateInf, time FROM PartieMaitre LIMIT 10";
@@ -33,12 +33,12 @@ public class PartieDaoImpl implements PartieDao
 	private static DAOMapper daoMapperPartie = new DAOMapper().setClass(Partie.class).setAttribute("id", "id")
 			.setAttribute("idMaitre", "idMaitre").setAttribute("score", "score").setAttribute("gagnant", "gagnant");
 
-	PartieDaoImpl(DAOFactory daoFactory)
+	PartieDaoSQL(DAOFactory daoFactory)
 	{
 		this.daoFactory = daoFactory;
 		DAOUtils.setDAOFactory(daoFactory);
 	}
-	
+
 	@Override
 	public List<PartieMaitre> historique(Utilisateur utilisateur) throws DAOException
 	{
@@ -63,7 +63,7 @@ public class PartieDaoImpl implements PartieDao
 				parties.add(trouver(idMaitre));
 			}
 		}
-		catch (SQLException e)
+		catch (Exception e)
 		{
 			throw new DAOException(e);
 		}
@@ -123,7 +123,7 @@ public class PartieDaoImpl implements PartieDao
 						"Échec de la création de la partie maitre en base, aucun ID auto-généré retourné.");
 			}
 		}
-		catch (SQLException e)
+		catch (Exception e)
 		{
 			throw new DAOException(e);
 		}
@@ -152,7 +152,7 @@ public class PartieDaoImpl implements PartieDao
 				parties.add(map(resultSet));
 			}
 		}
-		catch (SQLException e)
+		catch (Exception e)
 		{
 			throw new DAOException(e);
 		}
@@ -187,7 +187,7 @@ public class PartieDaoImpl implements PartieDao
 				partie.setId(null);
 			}
 		}
-		catch (SQLException e)
+		catch (Exception e)
 		{
 			throw new DAOException(e);
 		}
@@ -225,7 +225,7 @@ public class PartieDaoImpl implements PartieDao
 				partie = map(resultSet);
 			}
 		}
-		catch (SQLException e)
+		catch (Exception e)
 		{
 			throw new DAOException(e);
 		}
@@ -271,7 +271,7 @@ public class PartieDaoImpl implements PartieDao
 			}
 			partie.setPartieFils(partieFils);
 		}
-		catch (SQLException e)
+		catch (Exception e)
 		{
 			throw new DAOException(e);
 		}
